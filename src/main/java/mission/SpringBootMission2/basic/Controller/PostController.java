@@ -11,7 +11,7 @@ import java.util.Map;
 
 @Slf4j
 @RestController
-public class RequestController {
+public class PostController {
 
 
     //URL QueryString

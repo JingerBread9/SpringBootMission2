@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @Slf4j
 @RestController
-public class ResponseController {
+public class GetController {
 
     //URL QueryString
     @GetMapping("/mission2-1")
