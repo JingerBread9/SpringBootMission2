@@ -2,6 +2,9 @@ package mission.SpringBootMission2.basic.Controller;
 
 import lombok.extern.slf4j.Slf4j;
 import mission.SpringBootMission2.basic.Model.MissionData;
+import org.apache.catalina.filters.ExpiresFilter;
+import org.springframework.boot.ApplicationContextFactory;
+import org.springframework.ui.Model;
 import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -17,31 +20,52 @@ import java.util.Map;
 @RestController
 public class RequestController {
 
+
+    //URL QueryString
     @PostMapping("/mission1-1")
-    public void mission1_1(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public String mission1_1(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
-        ServletInputStream inputStream = request.getInputStream();
-        String messageBody = StreamUtils.copyToString(inputStream, StandardCharsets.UTF_8);
+        String name = request.getParameter("name");
+        String age = request.getParameter("age");
+        String address = request.getParameter("address");
 
-        log.info("messageBody={}",messageBody);
+        log.info("name = {}",name);
+        log.info("age = {}",age);
+        log.info("address = {}",address);
 
-        response.getWriter().write("ok");
+        return "ok";
 
     }
 
+    //form data & x-www-form-urlencoded -> Map
     @PostMapping("/mission1-2")
-    public String mission1_2(@RequestBody Map<String,String> map) {
-        System.out.println(map.get("name"));
-        System.out.println(map.get("age"));
-        System.out.println(map.get("address"));
+    public String mission1_2(@RequestParam Map<String,Object> map) {
+
+        log.info("name = {}",map.get("name"));
+        log.info("age = {}",map.get("age"));
+        log.info("address = {}",map.get("address"));
 
         return "ok";
     }
 
-    //JSON
-    @PostMapping(value="/mission1-3")
-    public String mission1_2(@RequestBody MissionData data) {
-       log.info("messageBody = {}",data);
+    //form data & x-www-form-urlencoded -> Model
+    @RequestMapping("/mission1-3")
+    public String mission1_3(MissionData missionData) throws IOException {
+
+        log.info("name = {}",missionData.getName());
+        log.info("age = {}",missionData.getAge());
+        log.info("address = {}",missionData.getAddress());
+
+        return "ok";
+    }
+
+    //application/json
+    @PostMapping(value="/mission1-4")
+    public String mission1_4(@RequestBody MissionData data) {
+
+       log.info("name = {}",data.getName());
+       log.info("age = {}",data.getAge());
+       log.info("address = {}",data.getAddress());
 
        return "ok";
     }
